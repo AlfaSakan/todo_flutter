@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list_flutter/pages/pages.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list_flutter/models/data_notifier.dart';
+import 'pages/pages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +22,15 @@ class MyApp extends StatelessWidget {
       initialRoute: TabBarBottom.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
-        TabBarBottom.routeName: (context) => const TabBarBottom(),
+        TabBarBottom.routeName: (context) => ChangeNotifierProvider(
+              child: const TabBarBottom(),
+              // create: (context) => ValueNotifier("Some vancy data"),
+              create: (context) {
+                DataNotifier dataNotifier = DataNotifier();
+                return ValueNotifier(dataNotifier);
+              },
+            ),
+        ShoppingPage.routeName: (context) => const ShoppingPage(),
       },
     );
   }

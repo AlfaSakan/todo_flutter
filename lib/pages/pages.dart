@@ -1,2 +1,9 @@
 export 'home_page.dart';
 export 'tab_bar_bottom.dart';
+export 'history_page.dart';
+export 'login_page.dart';
+export 'money_page.dart';
+export 'note_page.dart';
+export 'register_page.dart';
+export 'setting_page.dart';
+export 'shopping_page.dart';
