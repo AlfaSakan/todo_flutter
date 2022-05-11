@@ -1,26 +1,24 @@
 class User {
-  final int id;
-  final String name, username, email, phone;
+  late int _id;
+  late String _name, _username, _email, _phone;
 
-  User(this.id, this.name, this.username, this.email, this.phone);
-  // "name": "Leanne Graham",
-  // "username": "Bret",
-  // "email": "Sincere@april.biz",
-  // "address": {
-  //   "street": "Kulas Light",
-  //   "suite": "Apt. 556",
-  //   "city": "Gwenborough",
-  //   "zipcode": "92998-3874",
-  //   "geo": {
-  //     "lat": "-37.3159",
-  //     "lng": "81.1496"
-  //   }
-  // },
-  // "phone": "1-770-736-8031 x56442",
-  // "website": "hildegard.org",
-  // "company": {
-  //   "name": "Romaguera-Crona",
-  //   "catchPhrase": "Multi-layered client-server neural-net",
-  //   "bs": "harness real-time e-markets"
-  // }
+  int get getId => _id;
+
+  set id(int value) => _id = value;
+
+  String get getUsername => _username;
+
+  set username(String value) => _username = value;
+
+  String get getName => _name;
+
+  set name(String value) => _name = value;
+
+  String get getEmail => _email;
+
+  set email(String value) => _email = value;
+
+  String get getPhone => _phone;
+
+  set phone(String value) => _phone = value;
 }
