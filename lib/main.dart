@@ -8,6 +8,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<ShoppingCart>(create: (_) => ShoppingCart()),
+        ChangeNotifierProvider<NotesList>(create: (_) => NotesList()),
       ],
       child: const MyApp(),
     ),

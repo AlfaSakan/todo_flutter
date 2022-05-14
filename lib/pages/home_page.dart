@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../widgets/widgets.dart';
 import '../helpers/helpers.dart';
 import '../providers/providers.dart';
 import '../models/models.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final Map<String, bool> itemInCart = {};
+  final Map<String, bool> notesDone = {};
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +98,10 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.green,
                           ),
                           trailing: InkWell(
+                            onDoubleTap: () {
+                              var cart = context.read<ShoppingCart>();
+                              cart.removeShoppingItemAt(index);
+                            },
                             onTap: () {
                               setState(() {
                                 if (itemInCart[shoppingCart[index].getName] ??
@@ -120,6 +126,100 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                     ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Catatan Harian',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Consumer<NotesList>(
+                  builder: (context, value, child) {
+                    return Text(
+                      value.getNotes.length.toString(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Consumer<NotesList>(
+              builder: (context, value, child) {
+                var notes = value.getNotes;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  height: 250,
+                  width: double.infinity,
+                  child: notes.isEmpty
+                      ? const Center(
+                          child: Icon(
+                            Icons.remove_shopping_cart_outlined,
+                            size: 70,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: notes.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(
+                                toTitleCase(notes[index].getActivity),
+                                style: TextStyle(
+                                  decoration:
+                                      notesDone[notes[index].getActivity] ??
+                                              false
+                                          ? TextDecoration.lineThrough
+                                          : TextDecoration.none,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              subtitle: Text(notes[index].displayTime()),
+                              leading: const Icon(
+                                Icons.shop,
+                                color: Colors.green,
+                              ),
+                              trailing: InkWell(
+                                onDoubleTap: () {
+                                  value.removeNoteAt(index);
+                                },
+                                onTap: () {
+                                  setState(() {
+                                    if (notesDone[notes[index].getActivity] ??
+                                        false) {
+                                      notesDone[notes[index].getActivity] =
+                                          false;
+                                      return;
+                                    }
+                                    notesDone[notes[index].getActivity] = true;
+                                    value.addNote(notes[index]);
+                                    value.removeNoteAt(index);
+                                  });
+                                },
+                                child: Icon(
+                                  notesDone[notes[index].getActivity] ?? false
+                                      ? Icons.check_circle_outline
+                                      : Icons.radio_button_unchecked,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                );
+              },
             ),
           ],
         ),

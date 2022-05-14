@@ -18,4 +18,11 @@ class Note {
     DateTime date = DateTime.fromMillisecondsSinceEpoch(_time);
     return '${date.day}-${date.month}-${date.year}';
   }
+
+  String displayTime() {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(_time);
+    String hour = date.hour.toString().padLeft(2, '0');
+    String minute = date.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
 }
