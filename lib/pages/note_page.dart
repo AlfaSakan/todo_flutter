@@ -129,7 +129,7 @@ class _NotePageState extends State<NotePage> {
           const SizedBox(height: 20),
           TextFieldDatePicker(
             controller: _controllerTime,
-            labelText: 'Tanggal',
+            labelText: 'Jam',
             onTap: () async {
               // var selectedTimeRTL = await showTimePicker(
               //   context: context,

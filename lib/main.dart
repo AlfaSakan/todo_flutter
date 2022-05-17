@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_list_flutter/providers/providers.dart';
+import 'providers/providers.dart';
 import 'pages/pages.dart';
 
 void main() {
@@ -9,6 +9,7 @@ void main() {
       providers: [
         ChangeNotifierProvider<ShoppingCart>(create: (_) => ShoppingCart()),
         ChangeNotifierProvider<NotesList>(create: (_) => NotesList()),
+        ChangeNotifierProvider<MoneyHistory>(create: (_) => MoneyHistory()),
       ],
       child: const MyApp(),
     ),

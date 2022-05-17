@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+
 import '../widgets/widgets.dart';
 import '../helpers/helpers.dart';
 import '../providers/providers.dart';
@@ -17,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Map<String, bool> itemInCart = {};
   final Map<String, bool> notesDone = {};
+  int totalWallet = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -214,6 +217,88 @@ class _HomePageState extends State<HomePage> {
                                       : Icons.radio_button_unchecked,
                                   color: Colors.green,
                                 ),
+                              ),
+                            );
+                          },
+                        ),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Catatan Keuangan',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Consumer<MoneyHistory>(
+                  builder: (context, value, child) {
+                    return Text(
+                      NumberFormat.currency(
+                        locale: 'id',
+                        decimalDigits: 0,
+                      ).format(
+                        value.totalWallet(),
+                      ),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Consumer<MoneyHistory>(
+              builder: (context, value, child) {
+                var moneyHistory = value.getHistoryList;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  height: 250,
+                  width: double.infinity,
+                  child: moneyHistory.isEmpty
+                      ? const Center(
+                          child: Icon(
+                            Icons.remove_shopping_cart_outlined,
+                            size: 70,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: moneyHistory.length,
+                          itemBuilder: (context, index) {
+                            bool isIncome =
+                                value.getHistoryList[index].getIsIncome;
+
+                            return ListTile(
+                              title: Text(
+                                NumberFormat.currency(
+                                  locale: 'id',
+                                  decimalDigits: 0,
+                                ).format(
+                                  value.getHistoryList[index].getAmount,
+                                ),
+                                style: const TextStyle(
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              subtitle:
+                                  Text(moneyHistory[index].getDescription),
+                              leading: Icon(
+                                isIncome
+                                    ? Icons.arrow_downward_outlined
+                                    : Icons.arrow_upward_rounded,
+                                color: isIncome ? Colors.green : Colors.red,
                               ),
                             );
                           },
